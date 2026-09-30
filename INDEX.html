@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineRomance | Dramas, Romances y Triángulos Amorosos</title>
+    
+    <!-- 1. FAVICON (FASE A - 1) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌹</text></svg>">
+    
+    <!-- Google Fonts: Poppins & Playfair Display (FASE A - 3) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            rose: '#e11d48',
+                            darkRose: '#9f1239',
+                            gold: '#fbbf24',
+                            plum: '#140a16',
+                            cardBg: '#1e1122',
+                            border: '#3b2041'
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 2. CSS PERSONALIZADO (FASE A - 2 & 3) -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b050d;
+            color: #f3f4f6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b050d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9f1239;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e11d48;
+        }
+
+        /* Nav Glassmorphism */
+        .glass-nav {
+            background: rgba(20, 10, 22, 0.95);
+            backdrop-filter: blur(14px);
+        }
+
+        .glass-card {
+            background: rgba(30, 17, 34, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(225, 29, 72, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(225, 29, 72, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(225, 29, 72, 0.4);
+        }
+
+        /* Estilos de Banderas / Pestañas de Catálogo */
+        .tab-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
+            color: #ffffff;
+            border-color: #e11d48;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+        }
+
+        /* Triángulo amoroso badge */
+        .triangle-badge {
+            background: linear-gradient(135deg, #1e1122 0%, #0b050d 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        /* Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-[#0b050d] text-gray-100 min-h-screen flex flex-col antialiased selection:bg-brand-rose selection:text-white">
+
+    <!-- NAVBAR (FASE B - 1: Menú Ancla Bien + Menú Hamburguesa Funcional) -->
+    <header class="sticky top-0 z-40 w-full glass-nav border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center space-x-3 group">
+                    <span class="text-3xl transform group-hover:scale-110 transition duration-300">🌹</span>
+                    <span class="font-serif text-2xl font-bold tracking-wider text-white">Cine<span class="text-brand-rose">Romance</span></span>
+                </a>
+
+                <!-- Enlaces de navegación Escritorio -->
+                <nav class="hidden lg:flex items-center space-x-7 font-medium text-sm">
+                    <a href="#inicio" class="text-gray-300 hover:text-brand-rose transition duration-200">Inicio</a>
+                    <a href="#catalogos-divididos" class="text-gray-300 hover:text-brand-rose transition duration-200">Catálogos</a>
+                    <a href="#triangulos" class="text-gray-300 hover:text-brand-rose transition duration-200">Triángulos Amorosos</a>
+                    <a href="#votaciones" class="text-gray-300 hover:text-brand-rose transition duration-200">Votación Fans</a>
+                    <a href="#contacto" class="text-gray-300 hover:text-brand-rose transition duration-200">Contacto</a>
+                </nav>
+
+                <!-- Botón de acción Desktop -->
+                <div class="hidden lg:flex items-center">
+                    <a href="#catalogos-divididos" class="bg-gradient-to-r from-brand-rose to-brand-darkRose text-white px-5 py-2.5 rounded-full font-semibold text-xs uppercase tracking-wider shadow-lg hover:shadow-rose-900/50 hover:scale-105 transition duration-300">
+                        Explorar Títulos
+                    </a>
+                </div>
+
+                <!-- Botón Menú Hamburguesa Móvil (FASE B - 1 & F12) -->
+                <div class="flex lg:hidden">
+                    <button id="hamburger-btn" type="button" aria-label="Abrir menú" class="text-gray-300 hover:text-white focus:outline-none p-2.5 rounded-xl bg-brand-plum border border-brand-border">
+                        <i id="hamburger-icon" class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú desplegable Móvil -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-plum/98 border-b border-brand-border px-4 pt-3 pb-6 space-y-3 transition-all">
+            <a href="#inicio" class="mobile-link block px-4 py-2.5 rounded-lg text-gray-200 hover:bg-brand-rose/20 hover:text-brand-rose font-medium">Inicio</a>
+            <a href="#catalogos-divididos" class="mobile-link block px-4 py-2.5 rounded-lg text-gray-200 hover:bg-brand-rose/20 hover:text-brand-rose font-medium">Catálogos Divididos</a>
+            <a href="#triangulos" class="mobile-link block px-4 py-2.5 rounded-lg text-gray-200 hover:bg-brand-rose/20 hover:text-brand-rose font-medium">Triángulos Amorosos</a>
+            <a href="#votaciones" class="mobile-link block px-4 py-2.5 rounded-lg text-gray-200 hover:bg-brand-rose/20 hover:text-brand-rose font-medium">Votación de Fans</a>
+            <a href="#contacto" class="mobile-link block px-4 py-2.5 rounded-lg text-gray-200 hover:bg-brand-rose/20 hover:text-brand-rose font-medium">Contacto</a>
+            <a href="#catalogos-divididos" class="mobile-link block text-center bg-brand-rose text-white py-3 rounded-xl font-semibold shadow">Explorar Títulos</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (#inicio) -->
+    <section id="inicio" class="relative py-16 lg:py-24 overflow-hidden flex items-center min-h-[80vh]">
+        <!-- Fondo con patrón decorativo -->
+        <div class="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-darkRose/30 via-brand-plum to-[#0b050d]"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brand-rose/20 text-brand-rose border border-brand-rose/30">
+                        <i class="fas fa-heart text-xs"></i> Drama, Romance & Pasión
+                    </span>
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white">
+                        Donde las pasiones chocan y los <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-rose via-rose-400 to-brand-gold">corazones se dividen</span>
+                    </h1>
+                    <p class="text-gray-300 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Explora la colección definitiva de películas, series y K-Dramas con romances apasionados, dramas inolvidables y los triángulos amorosos más cautivadores del cine.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#catalogos-divididos" class="px-8 py-3.5 rounded-full bg-brand-rose hover:bg-brand-darkRose text-white font-semibold shadow-lg shadow-rose-900/40 transition duration-300 text-center">
+                            <i class="fas fa-layer-group mr-2"></i> Ver Catálogos por Categóría
+                        </a>
+                        <a href="#triangulos" class="px-8 py-3.5 rounded-full bg-brand-cardBg border border-brand-border hover:border-brand-rose text-gray-200 font-semibold transition duration-300 text-center">
+                            <i class="fas fa-heart-broken mr-2 text-brand-rose"></i> Ver Triángulos Amorosos
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Banner ilustrativo destacado -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm rounded-2xl p-6 bg-gradient-to-b from-brand-cardBg to-brand-plum border-2 border-brand-rose/50 shadow-2xl text-center transform hover:scale-105 transition duration-500">
+                        <div class="w-full h-64 rounded-xl bg-gradient-to-tr from-rose-900 via-purple-900 to-amber-900 flex flex-col justify-center items-center p-6 text-white relative overflow-hidden shadow-inner">
+                            <div class="text-5xl mb-3">💖</div>
+                            <span class="text-xs text-brand-gold font-bold uppercase tracking-widest mb-1">Destacado del Mes</span>
+                            <h3 class="font-serif text-2xl font-bold">El Verano en que me Enamoré</h3>
+                            <p class="text-xs text-rose-200 mt-2">Belly, Conrad & Jeremiah</p>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center text-xs text-gray-300">
+                            <span><i class="fas fa-star text-brand-gold mr-1"></i> 4.9 / 5.0</span>
+                            <span class="bg-brand-rose/20 text-brand-rose px-3 py-1 rounded-full font-semibold">Amazon Prime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANDEJA SUPERIOR DE CATÁLOGOS DIVIDIDOS (#catalogos-divididos) -->
+    <section id="catalogos-divididos" class="py-20 bg-[#0b050d] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-brand-rose font-semibold text-xs tracking-widest uppercase">Exploración Organizada</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">Catálogos Divididos por Categoría</h2>
+                <p class="text-gray-400 mt-2 text-sm">Selecciona una categoría en la bandera superior o busca tu obra favorita.</p>
+            </div>
+
+            <!-- BANDEJA / BANNER SUPERIOR DE PESTAÑAS (Dividido por categorías) -->
+            <div class="bg-brand-plum/90 border border-brand-border rounded-2xl p-4 mb-10 shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    
+                    <!-- Pestañas de Navegación del Catálogo -->
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2 w-full md:w-auto" id="catalog-tabs">
+                        <button onclick="switchTab('all')" id="tab-all" class="tab-btn active px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-brand-cardBg text-gray-300 border border-brand-border hover:border-brand-rose">
+                            <i class="fas fa-th-large mr-1.5"></i> Todos
+                        </button>
+                        <button onclick="switchTab('triangulos')" id="tab-triangulos" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-brand-cardBg text-gray-300 border border-brand-border hover:border-brand-rose">
+                            <i class="fas fa-heart-broken mr-1.5 text-brand-rose"></i> 1. Triángulos Amorosos
+                        </button>
+                        <button onclick="switchTab('series')" id="tab-series" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-brand-cardBg text-gray-300 border border-brand-border hover:border-brand-rose">
+                            <i class="fas fa-tv mr-1.5 text-purple-400"></i> 2. Series Dramáticas
+                        </button>
+                        <button onclick="switchTab('peliculas')" id="tab-peliculas" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-brand-cardBg text-gray-300 border border-brand-border hover:border-brand-rose">
+                            <i class="fas fa-film mr-1.5 text-amber-400"></i> 3. Películas Románticas
+                        </button>
+                        <button onclick="switchTab('kdramas')" id="tab-kdramas" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-brand-cardBg text-gray-300 border border-brand-border hover:border-brand-rose">
+                            <i class="fas fa-globe-asia mr-1.5 text-pink-400"></i> 4. K-Dramas
+                        </button>
+                    </div>
+
+                    <!-- Buscador en tiempo real -->
+                    <div class="relative w-full md:w-72">
+                        <input type="text" id="live-search" placeholder="Buscar por título, elenco..." class="w-full bg-brand-cardBg border border-brand-border text-gray-200 placeholder-gray-500 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:outline-none focus:border-brand-rose transition">
+                        <i class="fas fa-search absolute left-3.5 top-3 text-gray-500 text-xs"></i>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Grid Dinámico con Carteles Garantizados CSS/SVG -->
+            <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Se llena con Javascript -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CATÁLOGO ESPECIAL: TRIÁNGULOS AMOROSOS (#triangulos) -->
+    <section id="triangulos" class="py-20 bg-brand-plum/80 border-t border-brand-border relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-brand-gold font-semibold text-xs tracking-widest uppercase">Sección Especial</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">Los Triángulos Amorosos Más Emblemáticos</h2>
+                <p class="text-gray-400 mt-2 text-sm">Tres personajes, dos decisiones y un solo corazón elegido.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Triángulo 1 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-brand-rose">
+                    <div>
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-br from-rose-950 via-purple-900 to-indigo-950 flex flex-col justify-center items-center p-4 text-center mb-5 relative overflow-hidden border border-brand-rose/30">
+                            <span class="absolute top-3 right-3 bg-brand-rose text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">Amazon Prime</span>
+                            <div class="text-4xl mb-2">🌊</div>
+                            <h3 class="font-serif text-xl font-bold text-white">The Summer I Turned Pretty</h3>
+                            <p class="text-xs text-rose-200 mt-1">Cousins Beach Dilemma</p>
+                        </div>
+
+                        <!-- Los 3 Vértices -->
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-brand-plum p-2 rounded-lg border border-brand-border">
+                                <span class="block text-xs font-bold text-brand-rose">Conrad</span>
+                                <span class="text-[10px] text-gray-400">El hermano misterioso</span>
+                            </div>
+                            <div class="bg-brand-rose/20 p-2 rounded-lg border border-brand-rose/40">
+                                <span class="block text-xs font-bold text-brand-gold">Belly</span>
+                                <span class="text-[10px] text-gray-200">El centro de todo</span>
+                            </div>
+                            <div class="bg-brand-plum p-2 rounded-lg border border-brand-border">
+                                <span class="block text-xs font-bold text-brand-rose">Jeremiah</span>
+                                <span class="text-[10px] text-gray-400">El amigo dulce</span>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                            Belly regresa cada verano a Cousins Beach, pero este año la rivalidad entre los dos hermanos Fisher cambiará sus vidas para siempre.
+                        </p>
+                    </div>
+
+                    <button onclick="openModalById(101)" class="w-full py-2.5 rounded-xl border border-brand-rose text-brand-rose hover:bg-brand-rose hover:text-white transition font-semibold text-xs uppercase tracking-wider">
+                        Ver Detalles
+                    </button>
+                </div>
+
+                <!-- Triángulo 2 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-purple-600">
+                    <div>
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-br from-red-950 via-zinc-900 to-black flex flex-col justify-center items-center p-4 text-center mb-5 relative overflow-hidden border border-purple-500/30">
+                            <span class="absolute top-3 right-3 bg-purple-800 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">HBO Max</span>
+                            <div class="text-4xl mb-2">🧛</div>
+                            <h3 class="font-serif text-xl font-bold text-white">The Vampire Diaries</h3>
+                            <p class="text-xs text-purple-200 mt-1">Mystic Falls Saga</p>
+                        </div>
+
+                        <!-- Los 3 Vértices -->
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-brand-plum p-2 rounded-lg border border-brand-border">
+                                <span class="block text-xs font-bold text-brand-rose">Stefan</span>
+                                <span class="text-[10px] text-gray-400">El vampiro noble</span>
+                            </div>
+                            <div class="bg-brand-rose/20 p-2 rounded-lg border border-brand-rose/40">
+                                <span class="block text-xs font-bold text-brand-gold">Elena</span>
+                                <span class="text-[10px] text-gray-200">La joven mortal</span>
+                            </div>
+                            <div class="bg-brand-plum p-2 rounded-lg border border-brand-border">
+                                <span class="block text-xs font-bold text-brand-rose">Damon</span>
+                                <span class="text-[10px] text-gray-400">El hermano rebelde</span>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                            Elena Gilbert se ve atrapada en una pasión inmortal entre el noble Stefan y el peligroso e irresistible Damon Salvatore.
+                        </p>
+                    </div>
+
+                    <button onclick="openModalById(102)" class="w-full py-2.5 rounded-xl border border-brand-rose text-brand-rose hover:bg-brand-rose hover:text-white transition font-semibold text-xs uppercase tracking-wider">
+                        Ver Detalles
+                    </button>
+                </div>
+
+                <!-- Triángulo 3 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-amber-500">
+                    <div>
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-br from-emerald-950 via-teal-950 to-slate-900 flex flex-col justify-center items-center p-4 text-center mb-5 relative overflow-hidden border border-amber-500/30">
+                            <span class="absolute top-3 right-3 bg-teal-800 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">Netflix</span>
+                            <div class="text-4xl mb-2">🐺</div>
+                            <h3 class="font-serif text-xl font-bold text-white">Saga Crepúsculo (Twilight)</h3>
+                            <p class="text-xs text-amber-200 mt-1">Forks, Washington</p>
+                        </div>
+
+                        <!-- Los 3 Vértices -->
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-brand-plum p-2 rounded-lg border border-brand-border">
+                                <span class="block text-xs font-bold text-brand-rose">Edward</span>
+                                <span class="text-[10px] text-gray-400">El vampiro</span>
+                            </div>
+                            <div class="bg-brand-rose/20 p-2 rounded-lg border border-brand-rose/40">
+                                <span class="block text-xs font-bold text-brand-gold">Bella</span>
+                                <span class="text-[10px] text-gray-200">La humana</span>
+                            </div>
+                            <div class="bg-brand-plum p-2 rounded-lg border border-brand-border">
+                                <span class="block text-xs font-bold text-brand-rose">Jacob</span>
+                                <span class="text-[10px] text-gray-400">El hombre lobo</span>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                            Team Edward o Team Jacob: el dilema sobrenatural entre la fascinación eterna y el calor incondicional de la amistad.
+                        </p>
+                    </div>
+
+                    <button onclick="openModalById(103)" class="w-full py-2.5 rounded-xl border border-brand-rose text-brand-rose hover:bg-brand-rose hover:text-white transition font-semibold text-xs uppercase tracking-wider">
+                        Ver Detalles
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VOTACIÓN DE FANS (#votaciones) -->
+    <section id="votaciones" class="py-16 bg-brand-plum border-y border-brand-border">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-brand-gold font-semibold text-xs tracking-widest uppercase">Participa en Vivo</span>
+            <h2 class="font-serif text-3xl font-bold text-white mt-1 mb-3">¿Cuál es el Triángulo Amoroso con Más Tensión?</h2>
+            <p class="text-gray-300 mb-8 text-xs sm:text-sm">Vota por tu favorito y compara tu veredicto con la comunidad.</p>
+
+            <div id="poll-container" class="space-y-4 text-left">
+                <!-- Opción 1 -->
+                <div onclick="vote(1)" class="cursor-pointer p-4 rounded-xl bg-brand-cardBg border border-brand-border hover:border-brand-rose transition relative overflow-hidden group">
+                    <div id="bar-1" class="absolute top-0 left-0 bottom-0 bg-brand-rose/30 transition-all duration-700 w-0"></div>
+                    <div class="relative z-10 flex justify-between items-center text-xs sm:text-sm">
+                        <span class="font-semibold text-white group-hover:text-brand-rose transition">Belly, Conrad y Jeremiah (The Summer I Turned Pretty)</span>
+                        <span id="count-1" class="font-bold text-brand-gold">0 votos</span>
+                    </div>
+                </div>
+
+                <!-- Opción 2 -->
+                <div onclick="vote(2)" class="cursor-pointer p-4 rounded-xl bg-brand-cardBg border border-brand-border hover:border-brand-rose transition relative overflow-hidden group">
+                    <div id="bar-2" class="absolute top-0 left-0 bottom-0 bg-brand-rose/30 transition-all duration-700 w-0"></div>
+                    <div class="relative z-10 flex justify-between items-center text-xs sm:text-sm">
+                        <span class="font-semibold text-white group-hover:text-brand-rose transition">Elena, Stefan y Damon (The Vampire Diaries)</span>
+                        <span id="count-2" class="font-bold text-brand-gold">0 votos</span>
+                    </div>
+                </div>
+
+                <!-- Opción 3 -->
+                <div onclick="vote(3)" class="cursor-pointer p-4 rounded-xl bg-brand-cardBg border border-brand-border hover:border-brand-rose transition relative overflow-hidden group">
+                    <div id="bar-3" class="absolute top-0 left-0 bottom-0 bg-brand-rose/30 transition-all duration-700 w-0"></div>
+                    <div class="relative z-10 flex justify-between items-center text-xs sm:text-sm">
+                        <span class="font-semibold text-white group-hover:text-brand-rose transition">Bella, Edward y Jacob (Saga Crepúsculo)</span>
+                        <span id="count-3" class="font-bold text-brand-gold">0 votos</span>
+                    </div>
+                </div>
+
+                <!-- Opción 4 -->
+                <div onclick="vote(4)" class="cursor-pointer p-4 rounded-xl bg-brand-cardBg border border-brand-border hover:border-brand-rose transition relative overflow-hidden group">
+                    <div id="bar-4" class="absolute top-0 left-0 bottom-0 bg-brand-rose/30 transition-all duration-700 w-0"></div>
+                    <div class="relative z-10 flex justify-between items-center text-xs sm:text-sm">
+                        <span class="font-semibold text-white group-hover:text-brand-rose transition">Nora, Hae Sung y Arthur (Past Lives)</span>
+                        <span id="count-4" class="font-bold text-brand-gold">0 votos</span>
+                    </div>
+                </div>
+            </div>
+            <p id="vote-feedback" class="text-xs text-brand-rose mt-4 hidden font-semibold">¡Tu voto ha sido registrado correctamente!</p>
+        </div>
+    </section>
+
+    <!-- CONTACTO Y SUGERENCIAS (#contacto) -->
+    <section id="contacto" class="py-20 bg-[#0b050d] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Datos de contacto actualizados (FASE B - 8) -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="text-brand-rose text-xs font-bold uppercase tracking-wider">Comunidad & Contacto</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">¿Tienes alguna recomendación?</h2>
+                        <p class="text-gray-400 mt-3 text-xs sm:text-sm leading-relaxed">
+                            Escríbenos para sugerir nuevas películas, series o triángulos amorosos para añadirlos a nuestro catálogo.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start space-x-4 p-4 rounded-xl bg-brand-cardBg border border-brand-border">
+                            <div class="text-brand-rose text-xl p-3 bg-brand-rose/10 rounded-lg">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-xs">Correo Electrónico</h4>
+                                <p class="text-gray-300 text-xs mt-0.5">contacto@cineromance.com</p>
+                                <p class="text-gray-500 text-[10px]">Atención de lunes a viernes</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4 p-4 rounded-xl bg-brand-cardBg border border-brand-border">
+                            <div class="text-brand-rose text-xl p-3 bg-brand-rose/10 rounded-lg">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-xs">Oficina Central de Cine</h4>
+                                <p class="text-gray-300 text-xs mt-0.5">Avenida de la Gran Vía 45, Madrid, España</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4 p-4 rounded-xl bg-brand-cardBg border border-brand-border">
+                            <div class="text-brand-rose text-xl p-3 bg-brand-rose/10 rounded-lg">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-xs">Teléfono directo</h4>
+                                <p class="text-gray-300 text-xs mt-0.5">+34 910 882 341</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario Completo (FASE B - 7) -->
+                <div class="lg:col-span-7">
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-2xl">
+                        <h3 class="font-serif text-2xl font-bold text-white mb-6">Formulario de Sugerencias</h3>
+                        
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="nombre" class="block text-xs font-semibold text-gray-300 mb-1">Nombre Completo *</label>
+                                    <input type="text" id="nombre" required placeholder="Ej. Ana María Gómez" 
+                                           class="w-full bg-brand-plum border border-brand-border rounded-lg px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-brand-rose transition">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-xs font-semibold text-gray-300 mb-1">Correo Electrónico *</label>
+                                    <input type="email" id="email" required placeholder="tu@email.com" 
+                                           class="w-full bg-brand-plum border border-brand-border rounded-lg px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-brand-rose transition">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="categoria-sugerida" class="block text-xs font-semibold text-gray-300 mb-1">Categoría del Título *</label>
+                                    <select id="categoria-sugerida" class="w-full bg-brand-plum border border-brand-border rounded-lg px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-brand-rose transition">
+                                        <option value="Triángulo Amoroso">Triángulo Amoroso</option>
+                                        <option value="Serie Dramática">Serie Dramática</option>
+                                        <option value="Película Romántica">Película Romántica</option>
+                                        <option value="K-Drama">K-Drama / Asiático</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="titulo-pelicula" class="block text-xs font-semibold text-gray-300 mb-1">Título de la Película / Serie *</label>
+                                    <input type="text" id="titulo-pelicula" required placeholder="Ej. La La Land" 
+                                           class="w-full bg-brand-plum border border-brand-border rounded-lg px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-brand-rose transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="mensaje" class="block text-xs font-semibold text-gray-300 mb-1">Reseña o comentario *</label>
+                                <textarea id="mensaje" rows="4" required placeholder="Cuéntanos por qué esta obra debería estar en nuestro catálogo..." 
+                                          class="w-full bg-brand-plum border border-brand-border rounded-lg px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-brand-rose transition"></textarea>
+                            </div>
+
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="boletin" class="rounded bg-brand-plum border-brand-border text-brand-rose focus:ring-0">
+                                <label for="boletin" class="text-xs text-gray-300">Quiero recibir recomendaciones semanales de romance.</label>
+                            </div>
+
+                            <button type="submit" class="w-full py-3 px-6 bg-gradient-to-r from-brand-rose to-brand-darkRose text-white font-semibold rounded-lg shadow-lg hover:shadow-rose-900/50 transition duration-300 text-xs uppercase tracking-wider">
+                                <i class="fas fa-paper-plane mr-2"></i> Enviar Sugerencia
+                            </button>
+                        </form>
+
+                        <!-- Feedback de éxito -->
+                        <div id="form-success" class="hidden mt-4 p-4 rounded-lg bg-green-900/40 border border-green-500/50 text-green-200 text-xs flex items-center gap-3">
+                            <i class="fas fa-check-circle text-xl text-green-400"></i>
+                            <div>
+                                <p class="font-bold">¡Mensaje enviado con éxito!</p>
+                                <p class="text-[11px] text-green-300">Gracias por tu aporte a la comunidad de CineRomance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-plum border-t border-brand-border py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <a href="#inicio" class="font-serif text-xl font-bold text-white">Cine<span class="text-brand-rose">Romance</span></a>
+                <p class="text-gray-500 text-xs mt-1">© 2026 CineRomance. Todos los derechos reservados.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 text-xs text-gray-400">
+                <a href="#inicio" class="hover:text-brand-rose transition">Inicio</a>
+                <a href="#catalogos-divididos" class="hover:text-brand-rose transition">Catálogos</a>
+                <a href="#triangulos" class="hover:text-brand-rose transition">Triángulos</a>
+                <a href="#contacto" class="hover:text-brand-rose transition">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DETALLE -->
+    <div id="movie-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
+        <div class="glass-card max-w-2xl w-full rounded-2xl overflow-hidden relative shadow-2xl border border-brand-rose/40 animate-fade-in">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-black/60 w-8 h-8 rounded-full flex items-center justify-center z-10 transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modal-content" class="p-6 sm:p-8">
+                <!-- Inyectado dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BASE DE DATOS CON ARTWORK VECTORIAL/CSS GARANTIZADO (100% Sin Fallos)
+        const catalogData = [
+            // Triángulos Amorosos
+            {
+                id: 101,
+                title: "The Summer I Turned Pretty",
+                category: "triangulos",
+                genre: "Triángulo Amoroso",
+                rating: "4.9",
+                year: "2022 - Presente",
+                platform: "Amazon Prime Video",
+                badgeColor: "from-blue-900 via-indigo-900 to-rose-950",
+                icon: "🌊",
+                synopsis: "Un emotivo drama de madurez sobre el triángulo amoroso entre Belly y los hermanos Fisher (Conrad y Jeremiah), durante unos inolvidables veranos en Cousins Beach.",
+                cast: "Lola Tung, Christopher Briney, Gavin Casalegno"
+            },
+            {
+                id: 102,
+                title: "The Vampire Diaries",
+                category: "triangulos",
+                genre: "Triángulo Amoroso",
+                rating: "4.8",
+                year: "2009 - 2017",
+                platform: "HBO Max",
+                badgeColor: "from-red-950 via-purple-950 to-black",
+                icon: "🧛",
+                synopsis: "Elena Gilbert se ve envuelta en una peligrosa red sobrenatural al enamorarse de dos hermanos vampiros opuestos: Stefan y Damon Salvatore.",
+                cast: "Nina Dobrev, Paul Wesley, Ian Somerhalder"
+            },
+            {
+                id: 103,
+                title: "Saga Crepúsculo (Twilight)",
+                category: "triangulos",
+                genre: "Triángulo Amoroso",
+                rating: "4.7",
+                year: "2008 - 2012",
+                platform: "Netflix",
+                badgeColor: "from-emerald-950 via-teal-950 to-slate-900",
+                icon: "🐺",
+                synopsis: "Bella Swan desafía las normas del mundo fantástico en el dilema de su vida: el amor misterioso del vampiro Edward Cullen o el afecto leal del licántropo Jacob Black.",
+                cast: "Kristen Stewart, Robert Pattinson, Taylor Lautner"
+            },
+            {
+                id: 104,
+                title: "Past Lives (Vidas Pasadas)",
+                category: "triangulos",
+                genre: "Triángulo Amoroso",
+                rating: "4.9",
+                year: "2023",
+                platform: "A24 / MUBI",
+                image: "https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop",
+                badgeColor: "from-amber-950 via-stone-900 to-rose-950",
+                icon: "🗽",
+                synopsis: "Nora y Hae Sung, dos amigos de la infancia con un lazo indestructible, se reencuentran en Nueva York dos décadas después para confrontar las elecciones de su vida.",
+                cast: "Greta Lee, Teo Yoo, John Magaro"
+            },
+
+            // Series Dramáticas
+            {
+                id: 201,
+                title: "Bridgerton",
+                category: "series",
+                genre: "Drama de Época",
+                rating: "4.8",
+                year: "2020 - Presente",
+                platform: "Netflix",
+                badgeColor: "from-yellow-950 via-amber-900 to-purple-950",
+                icon: "👑",
+                synopsis: "Los ocho hermanos de la familia Bridgerton buscan la pasión y el verdadero amor entre bailes, secretos y alta sociedad en la Inglaterra de la Regencia.",
+                cast: "Phoebe Dynevor, Regé-Jean Page, Nicola Coughlan"
+            },
+            {
+                id: 202,
+                title: "Emily in Paris",
+                category: "series",
+                genre: "Romance Moderno",
+                rating: "4.5",
+                year: "2020 - Presente",
+                platform: "Netflix",
+                badgeColor: "from-pink-950 via-rose-900 to-purple-900",
+                icon: "🗼",
+                synopsis: "Emily Cooper se traslada a París para cumplir el trabajo de sus sueños, encontrando importantes choques culturales y complicados romances.",
+                cast: "Lily Collins, Lucas Bravo, Lucien Laviscount"
+            },
+            {
+                id: 203,
+                title: "Normal People",
+                category: "series",
+                genre: "Drama Romántico",
+                rating: "4.9",
+                year: "2020",
+                platform: "Starzplay",
+                badgeColor: "from-cyan-950 via-sky-900 to-slate-900",
+                icon: "📖",
+                synopsis: "Una mirada tierna, compleja e hiperrealista al romance entre Marianne y Connell desde la escuela secundaria hasta la universidad en Irlanda.",
+                cast: "Daisy Edgar-Jones, Paul Mescal"
+            },
+
+            // Películas Románticas
+            {
+                id: 301,
+                title: "Orgullo y Prejuicio",
+                category: "peliculas",
+                genre: "Romance Clásico",
+                rating: "4.9",
+                year: "2005",
+                platform: "Universal",
+                badgeColor: "from-green-950 via-emerald-900 to-amber-950",
+                icon: "🏰",
+                synopsis: "La independiente Elizabeth Bennet y el altivo Sr. Darcy aprenden a superar sus propios prejuicios para descubrir un amor inolvidable.",
+                cast: "Keira Knightley, Matthew Macfadyen"
+            },
+            {
+                id: 302,
+                title: "La La Land: Ciudad de Sueños",
+                category: "peliculas",
+                genre: "Drama Musical",
+                rating: "4.8",
+                year: "2016",
+                platform: "Amazon Prime",
+                badgeColor: "from-blue-950 via-purple-900 to-amber-900",
+                icon: "🎷",
+                synopsis: "Un apasionado músico de jazz y una aspirante a actriz se enamoran perdidamente en Los Ángeles mientras luchan por triunfar en sus carreras.",
+                cast: "Ryan Gosling, Emma Stone"
+            },
+            {
+                id: 303,
+                title: "Diario de una Pasión (The Notebook)",
+                category: "peliculas",
+                genre: "Drama Romántico",
+                rating: "4.9",
+                year: "2004",
+                platform: "HBO Max",
+                badgeColor: "from-rose-950 via-red-900 to-amber-950",
+                icon: "✉️",
+                synopsis: "La intemporal historia de amor entre Noah y Allie, dos jóvenes separados por la clase social pero unidos por un sentimiento insuperable.",
+                cast: "Ryan Gosling, Rachel McAdams"
+            },
+
+            // K-Dramas
+            {
+                id: 401,
+                title: "Aterrizaje de Emergencia en tu Corazón",
+                category: "kdramas",
+                genre: "K-Drama Romántico",
+                rating: "4.9",
+                year: "2019",
+                platform: "Netflix",
+                badgeColor: "from-fuchsia-950 via-pink-900 to-indigo-950",
+                icon: "🪂",
+                synopsis: "Una rica heredera surcoreana sufre un accidente en parapente y cae en Corea del Norte, donde un capitán del ejército arriesgará todo por protegerla.",
+                cast: "Hyun Bin, Son Ye-jin"
+            },
+            {
+                id: 402,
+                title: "La Reina de las Lágrimas",
+                category: "kdramas",
+                genre: "Drama Matrimonial",
+                rating: "4.8",
+                year: "2024",
+                platform: "Netflix",
+                badgeColor: "from-purple-950 via-violet-900 to-rose-950",
+                icon: "💎",
+                synopsis: "Una influyente ejecutiva y su humilde esposo atraviesan una fuerte crisis matrimonial que milagrosamente despierta una nueva llama de amor.",
+                cast: "Kim Soo-hyun, Kim Ji-won"
+            }
+        ];
+
+        // 1. Menú hamburguesa móvil funcional
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburgerBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-times');
+            } else {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('fa-times');
+                hamburgerIcon.classList.add('fa-bars');
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('fa-times');
+                hamburgerIcon.classList.add('fa-bars');
+            });
+        });
+
+        // 2. Sistema de Pestañas (Bandeja Banner Superior)
+        let activeTab = 'all';
+
+        function switchTab(tabCategory) {
+            activeTab = tabCategory;
+            
+            // Actualizar estilo visual de los botones de pestañas
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const currentTabBtn = document.getElementById(`tab-${tabCategory}`);
+            if (currentTabBtn) {
+                currentTabBtn.classList.add('active');
+            }
+
+            renderCatalog();
+        }
+
+        // Búsqueda en directo
+        document.getElementById('live-search').addEventListener('input', () => {
+            renderCatalog();
+        });
+
+        // Renderizar Catálogo con Garantía de Imagen
+        function renderCatalog() {
+            const grid = document.getElementById('catalog-grid');
+            const searchVal = document.getElementById('live-search').value.toLowerCase();
+
+            const filtered = catalogData.filter(item => {
+                const matchesTab = (activeTab === 'all') || (item.category === activeTab);
+                const matchesSearch = item.title.toLowerCase().includes(searchVal) || 
+                                      item.synopsis.toLowerCase().includes(searchVal) ||
+                                      item.cast.toLowerCase().includes(searchVal);
+                return matchesTab && matchesSearch;
+            });
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400 text-sm">No se encontraron obras para esta categoría con la búsqueda realizada.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl overflow-hidden flex flex-col justify-between';
+                
+                card.innerHTML = `
+                    <div>
+                        <!-- PÓSTER ESTILIZADO CSS/SVG (100% GARANTIZADO - NUNCA ROTO) -->
+                        <div class="w-full h-52 bg-gradient-to-br ${item.badgeColor} p-4 flex flex-col justify-between relative overflow-hidden shadow-inner border-b border-brand-border">
+                            <div class="flex justify-between items-center z-10">
+                                <span class="bg-brand-rose text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                    ${item.genre}
+                                </span>
+                                <span class="bg-black/70 text-brand-gold text-[11px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1">
+                                    <i class="fas fa-star text-[10px]"></i> ${item.rating}
+                                </span>
+                            </div>
+
+                            <div class="text-center my-auto z-10">
+                                <div class="text-4xl mb-1">${item.icon}</div>
+                                <h4 class="font-serif text-lg font-bold text-white leading-tight px-2 drop-shadow-md">${item.title}</h4>
+                            </div>
+
+                            <div class="flex justify-between items-center text-[10px] text-gray-300 z-10 pt-1 border-t border-white/10">
+                                <span>${item.year}</span>
+                                <span class="text-brand-gold font-semibold">${item.platform}</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5">
+                            <p class="text-gray-300 text-xs line-clamp-3 leading-relaxed mb-3">${item.synopsis}</p>
+                            <p class="text-[11px] text-gray-400"><strong class="text-gray-200">Elenco:</strong> ${item.cast}</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 pt-0">
+                        <button onclick="openModalById(${item.id})" class="w-full py-2.5 bg-brand-plum border border-brand-border hover:border-brand-rose text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition">
+                            <i class="fas fa-info-circle mr-1 text-brand-rose"></i> Ver Ficha Completa
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal de Ficha Técnica
+        function openModalById(id) {
+            const item = catalogData.find(m => m.id === id);
+            if (!item) return;
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="w-full h-40 bg-gradient-to-br ${item.badgeColor} rounded-xl p-4 flex flex-col justify-center items-center text-center relative border border-brand-rose/40">
+                        <div class="text-4xl mb-1">${item.icon}</div>
+                        <h2 class="font-serif text-2xl font-bold text-white">${item.title}</h2>
+                        <span class="text-xs text-brand-gold mt-1"><i class="fas fa-tv mr-1"></i>${item.platform} (${item.year})</span>
+                    </div>
+
+                    <div class="flex items-center justify-between text-xs border-y border-brand-border py-2">
+                        <span class="bg-brand-rose/20 text-brand-rose font-bold px-3 py-1 rounded-full uppercase">${item.genre}</span>
+                        <span class="text-brand-gold font-bold"><i class="fas fa-star mr-1"></i>${item.rating} / 5.0</span>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold text-white mb-1">Sinopsis</h4>
+                        <p class="text-gray-300 text-xs leading-relaxed">${item.synopsis}</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold text-white mb-1">Elenco Principal</h4>
+                        <p class="text-gray-400 text-xs">${item.cast}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('movie-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('movie-modal').classList.add('hidden');
+        }
+
+        document.getElementById('movie-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'movie-modal') closeModal();
+        });
+
+        // Votación interactiva
+        const votes = { 1: 240, 2: 310, 3: 195, 4: 150 };
+        let voted = false;
+
+        function updatePollUI() {
+            const total = votes[1] + votes[2] + votes[3] + votes[4];
+            for (let i = 1; i <= 4; i++) {
+                const countElem = document.getElementById(`count-${i}`);
+                const barElem = document.getElementById(`bar-${i}`);
+                const percent = Math.round((votes[i] / total) * 100);
+                countElem.textContent = `${votes[i]} votos (${percent}%)`;
+                barElem.style.width = `${percent}%`;
+            }
+        }
+
+        function vote(id) {
+            if (voted) return;
+            votes[id]++;
+            voted = true;
+            updatePollUI();
+            document.getElementById('vote-feedback').classList.remove('hidden');
+        }
+
+        // Manejo de Formulario (FASE B - 7)
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const successBox = document.getElementById('form-success');
+            const form = document.getElementById('contact-form');
+
+            successBox.classList.remove('hidden');
+            form.reset();
+
+            setTimeout(() => {
+                successBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCatalog();
+            updatePollUI();
+        });
+    </script>
+</body>
+</html>
